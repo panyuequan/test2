@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding: 0;
+        }
+        table{
+            border-collapse: collapse;
+            width: 500px;
+        }
+        td,th{
+            height: 30px;
+            line-height: 30px;
+            border: 1px solid #000000;
+        }
+    </style>
+</head>
+<body>
+姓名：<input type="text" id="text1"><br>
+电话：<input type="text" id="text2"><br>
+年龄：<input type="text" id="text3"><br>
+邮箱：<input type="text" id="text4"><br>
+<input type="submit" value="添加" id="bn">
+<script>
+    /*
+   * 1、姓名验证必须是字符和数字、下划线组成。如果错误，后面后面有红字提示
+   * */
+    var text1=document.getElementById("text1");
+//    text.addEventListener("blur",upHandler);
+    text1.addEventListener("input",nameInputHandler);
+    function nameInputHandler(){
+        var reg=/^\w+$/g;
+        if(!reg.test(text1.value)){
+            text1.value+="输入错误";
+            text1.style.color="red";
+        }else{
+            text1.style.color="black";
+        }
+
+    }
+
+  //2电话数字为11 位
+    var text2=document.getElementById("text2");
+    text2.addEventListener("blur",phUpHandler);
+    text2.addEventListener("input",phInputHandler);
+    function phUpHandler(e) {
+        if(text2.value.length!==11)alert("输入错误，请重新输入");
+    }
+    function phInputHandler(e) {
+        var reg=/[^0-9]/g;
+        text2.value=text.value.replace(reg,"");
+//        text.value=text.value.replace(text.value,"");
+    }
+
+    //3 年龄必须为1-100
+
+    var text3=document.getElementById("text3");
+    //    text.addEventListener("blur",upHandler);
+    text3.addEventListener("input",yearInputHandler);
+    function yearInputHandler(e) {
+        if(text3.value<0 || text3.value>100 || isNaN(Number(text3.value))){
+            alert("输入错误，请重新输入");
+        }
+    }
+
+//4 邮箱验证
+    var text4=document.getElementById("text4");
+    text4.addEventListener("blur",upHandler);
+    //    text.addEventListener("input",inputHandler);
+    function upHandler(e) {
+        var reg=/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/g;
+        if(text4.value===""){
+            alert("输入不能为空");
+        }else if(!reg.test(text4.value)){
+            alert("输入错误");
+        }
+    }
+
+    //5 将内容添加到表格
+
+    var arr=["姓名","电话","年龄","邮箱"];
+    var bn=document.getElementById("bn");
+    bn.addEventListener("click",clickHandler);
+    var table=document.createElement("table");
+    var tr=document.createElement("tr");
+    document.body.appendChild(table);
+    table.appendChild(tr);
+    for(var i=0 ;i<arr.length;i++){
+        var th=document.createElement("th");
+        th.textContent=arr[i];
+        tr.appendChild(th);
+    }
+    var th=document.createElement("th");
+    th.textContent="删除";
+    tr.appendChild(th);
+    function clickHandler(e){
+        var tr=document.createElement("tr");
+        for(var i=1;i<5;i++){
+            var td=document.createElement("td");
+            td.textContent=eval("text"+i).value;//变量引用
+            tr.appendChild(td);
+        }
+        var td=document.createElement("td");
+        tr.appendChild(td);
+        var bnt=document.createElement("input");
+        bnt.type="button";
+        bnt.value="删除";
+        td.appendChild(bnt);
+        bnt.addEventListener("click",bnClickHandler);
+        table.appendChild(tr);
+
+    }
+
+    //6删除表格中的每一行
+    function bnClickHandler(e) {
+        var a=this.parentElement.parentElement
+        a.parentElement.removeChild(a);
+    }
+
+
+
+
+
+</script>
+</body>
+</html>
